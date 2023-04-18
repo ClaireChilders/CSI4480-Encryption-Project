@@ -6,13 +6,7 @@ var appLocals = require('./app-locals.js');
 var dbconnect = require('./public/scripts/dbconnect.js');
 const helmet = require('helmet');
 const { encrypt, decrypt } = require('./public/scripts/encryption.js');
-
-// let tls;
-// try {
-//   tls = require('node:tls');
-// } catch (err) {
-//   console.error('tls support is disabled!');
-// } 
+const { validateInput } = require('./public/scripts/validateInput.js');
 
 const app = express();
 
@@ -31,8 +25,6 @@ app.set('view engine', 'ejs');
 
 app.use(express.static('public/scripts'));
 
-
-
 app.get('/', (req, res) => {
     res.render('pages/index');
 });
@@ -42,34 +34,7 @@ app.get('/encryption', (req, res) => {
 });
 
 
-
 app.post('/', (req, res) => {
-    // const options = {
-    //     // Necessary only if the server requires client certificate authentication.
-    //     // key: fs.readFileSync('client-key.pem'),
-    //     // cert: fs.readFileSync('client-cert.pem'),
-      
-    //     // Necessary only if the server uses a self-signed certificate.
-    //     ca: [ fs.readFileSync('csi4480-cert.pem') ],
-      
-    //     // Necessary only if the server's cert isn't for "localhost".
-    //     checkServerIdentity: () => { return null; },
-    //   };
-      
-    //   const socket = tls.connect(8000, options, () => {
-    //     console.log('client connected',
-    //                 socket.authorized ? 'authorized' : 'unauthorized');
-    //     process.stdin.pipe(socket);
-    //     process.stdin.resume();
-    //   });
-    //   socket.setEncoding('utf8');
-    //   socket.on('data', (data) => {
-    //     console.log(data);
-    //   });
-    //   socket.on('end', () => {
-    //     console.log('server ends connection');
-    //   });
-
     res.redirect('/encryption');
 });
 
@@ -77,6 +42,11 @@ app.post('/insert', async(req, res) => {
     console.log(req.body);
     if (req.body.username == '' || req.body.password == '' || req.body.email == '') {
         res.redirect('/encryption?status=missing-data');
+        return;
+    }
+
+    if (!validateInput(req.body.username) || !validateInput(req.body.password) || !validateInput(req.body.email)) {
+        res.redirect('/encryption?status=bad-data');
         return;
     }
 
@@ -96,7 +66,6 @@ app.post('/insert', async(req, res) => {
         res.redirect('/encryption?status=insert-error');
         return;
     }
-    console.log(result);
     if ((result==='string' || result instanceof String)) {
         if (result.startsWith('ERROR') || result.startsWith('ORA')) {
             res.redirect('/encryption?status=insert-error');
@@ -117,6 +86,11 @@ app.post('/insert', async(req, res) => {
 app.post('/request', async(req, res) => {
     if (req.body.username == '') {
         res.redirect('/encryption?status=missing-data');
+        return;
+    }
+
+    if (!validateInput(req.body.username)) {
+        res.redirect('/encryption?status=bad-data');
         return;
     }
 
@@ -182,76 +156,8 @@ app.post('/request', async(req, res) => {
 
 
 app.get('/request', async(req, res) => {
-    console.log('hello');
     res.redirect('/encryption');
 });
-
-/*
-app.post('/create_session', (req, res) => {
-    console.log(`got public key of client`);
-    console.log(`generating shared access key...`);
-
-    console.log(`forming connection with database...`);
-    console.log(`encrypting shared access key for database...`);
-
-    console.log(`creating id of the handshake between client and server...`);
-    console.log(`storing handshake id and encrypted shared key in database...`);
-
-    console.log(`encrypting shared access key with client's public key...`);
-    
-    console.log(`responding with handshake id and encrypted shared access key...`);
-
-    res.redirect('/');
-});
-
-app.post('/request', (req, res) => {
-    console.log(`got handshake id`);
-    
-    console.log(`forming connection with database...`);
-    console.log(`searching for shared access key...`);
-    console.log(`validating session...`);
-    
-    // bad session
-    console.log(`invalid session.`);
-    console.log(`deleting session record from database...`);
-    console.log(`closing connection with database...`);
-
-    // valid session
-    console.log(`valid session`);
-    console.log(`requesting data from database...`);
-    console.log(`got row data`);
-    console.log(`closing connection with database...`);
-    console.log(`decrypting row data...`);
-
-    console.log(`encrypting row data with shared access key...`);
-    console.log(`sending encrypted data back to client...`);
-});
-
-app.post('/insert', (req, res) => {
-    console.log(`got encrypted data and handshake id.`);
-    
-    console.log(`forming connection with database...`);
-    console.log(`searching for shared access key...`);
-    
-    console.log(`validating session...`);
-
-    // invalid session
-    console.log(`invalid session.`);
-    console.log(`deleting session record from database...`);
-    console.log(`closing connection with database...`);
-
-    // valid session
-    console.log(`valid session.`);
-    console.log(`decrypting encrypted data with shared access key...`);
-    
-    console.log(`encrypting data to be stored in database...`);
-    console.log(`inserting encrypted data in database...`);
-    console.log(`closing connection with database...`);
-
-    console.log(`data successfully inserted into database.`);
-
-});
-*/
 
 app.use((req, res, next) => {
     res.status(404).send('Not found.');
@@ -261,29 +167,5 @@ app.use((err, req, res, next) => {
     res.status(500).send(`Uh oh! Something's wrong`);
 });
 
-
-/* const fs = require('fs');
-
-const options = {
-  key: fs.readFileSync('csi4480-key.pem'),
-  cert: fs.readFileSync('csi4480-cert.pem'),
-
-  // This is necessary only if using client certificate authentication.
-  //requestCert: true,
-
-  // This is necessary only if the client uses a self-signed certificate.
-  //ca: [ fs.readFileSync('client-cert.pem') ]
-}; */
-
-/* const server = tls.createServer(options, (socket) => {
-    console.log('server connected',
-                socket.authorized ? 'authorized' : 'unauthorized');
-    socket.write('welcome!\n');
-    socket.setEncoding('utf8');
-    socket.pipe(socket);
-  });
-  server.listen(8000, () => {
-    console.log('server bound');
-}); */
 
 app.listen(PORT, () => console.info(`listening on port ${PORT}`));

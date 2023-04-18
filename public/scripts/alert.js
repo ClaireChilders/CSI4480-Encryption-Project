@@ -14,6 +14,8 @@ if (statusalert == 'insert-success') {
     setAlert('No User Exists With the Provided Username', 'error');
 } else if (statusalert == 'missing-data') {
     setAlert('All fields must be filled out', 'warning');
+} else if (statusalert == 'bad-data') {
+    setAlert('Invalid input', 'error');
 }
 
 function setAlert(alertText, alertType) {

@@ -36,7 +36,6 @@ async function disconnect() {
 async function commit() {
     console.log('committing...');
     await connection.execute('COMMIT');
-    console.log('committed');
     return;
 }
 

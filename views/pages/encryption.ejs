@@ -30,10 +30,10 @@
           <div class="container" style="margin-top: 50px;">
             <h1>Retrieve Data From User</h1>
             <br>
-            <form method="post" autocomplete="off" action="/request">
+            <form method="post" autocomplete="off" action="/request" id="retrieve">
                 <div class="formGroup py-2">
                     <label for="username" class="align-items-center" style="display:inline-flex;">Username:
-                        <input style="display: inline-flex;margin-left: 10px;" type="text" autocomplete="off" tabindex="1" name="username" class="form-control align-items-center" id="username"/>
+                        <input placeholder="Username" style="display: inline-flex;margin-left: 10px;" type="text" autocomplete="off" tabindex="1" name="username" class="form-control align-items-center" id="retrieveusername"/>
                     </label>
                 </div>
                 <div class="d-inline-flex gap-2 py-3">
@@ -47,20 +47,20 @@
             <br>
             
             <h1>Create New User</h1>
-            <form method="post" autocomplete="off" action="/insert">
+            <form method="post" autocomplete="off" action="/insert" id="insert">
                 <div class="formGroup py-2">
                     <label for="username" class="align-items-center" style="display:inline-flex;">Username:
-                        <input style="display: inline-flex;margin-left: 10px;" type="text" autocomplete="address-level4" tabindex="1" name="username" class="form-control align-items-center" id="username"/>
+                        <input placeholder="Username" style="display: inline-flex;margin-left: 10px;" type="text" autocomplete="off" tabindex="1" name="username" class="form-control align-items-center" id="insertusername"/>
                     </label>
                 </div>
                 <div class="formGroup py-2">
                     <label for="password" class="align-items-center" style="display:inline-flex;">Password:
-                        <input style="display: inline-flex;margin-left: 15px;" type="text" autocomplete="off" tabindex="1" name="password" class="form-control align-items-center"/>
+                        <input placeholder="Password" style="display: inline-flex;margin-left: 15px;" type="password" autocomplete="off" tabindex="1" name="password" class="form-control align-items-center" id="insertpassword"/>
                     </label>
                 </div>
                 <div class="formGroup py-2">
                     <label for="email" class="align-items-center" style="display:inline-flex;">Email:
-                        <input style="display: inline-flex;margin-left: 40px;" type="text" autocomplete="address-level4" tabindex="1" name="email" class="form-control align-items-center"/>
+                        <input placeholder="Email" style="display: inline-flex;margin-left: 40px;" type="email" autocomplete="off" tabindex="1" name="email" class="form-control align-items-center" id="insertemail"/>
                     </label>
                 </div>
                 <div class="d-inline-flex gap-2 py-3">
