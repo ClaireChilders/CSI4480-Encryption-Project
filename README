@@ -1,0 +1,59 @@
+ ___________________________________________________
+|                                                   |
+|      CSI4480 Final Project "Encrypt & Salsa"      |
+|                     2023-04-14                    |
+|___________________________________________________|
+The purpose of this project is to implement column-level encryption at the database level to protect against infiltration where attackers could gain access to database values. By only storing encrypted data in the database, if an attacker gain access to an image of the database, they won't be able to gain anything from it unless they also get the encryption keys.
+
+Function:
+ - Client sends user data to server to be stored in a database
+ - Server connects to database and inserts encrypted data
+
+ - Client requests retrieval of user data
+ - Server connects to database and retrieves encrypted data
+ - Server decrypts data and sends them back to client
+Database only contains encrypted data
+
+ _______________________
+|                       |
+|      LIMITATIONS      |
+|_______________________|
+This is intended for demonstration purposes only. 
+Securing all aspects of the application is outside the scope of this project. We are focusing on database encryption.
+ - A secure connection between the server and database is assumed -> Risk for Interception
+ - This demo does NOT include encryption between the client and server -> Open to Interception Attacks
+ - Keys are stored on the server, they should be stored in a separate secure server in a production environment -> Risk for Infiltration Compromising Keys
+
+
+ _________________
+|                 |
+|      SETUP      |
+|_________________|
+THIS PROJECT USES ORACLE FOR DATABASE
+
+Create a user for this project, create a table for that user called users. Note the username and password for the .env file.
+    CREATE TABLE users (username CHAR256, password CHAR256, email CHAR256);
+
+.env setup
+ PORT: The port the web application will run on
+ PASS_KEY   =   a 256 bit encryption key. Make sure it is surrounded by quotes.
+ EMAIL_KEY  =   a 256 bit encryption key. Make sure it is surrounded by quotes.
+ USER_KEY   =   a 256 bit encryption key. Make sure it is surrounded by quotes.
+ DB_USER    =   oracle database user
+ DB_PASSWORD=   password of specified user
+ DB_PATH    =   path of oracle database listener
+
+This project requires node.js. Run node app.js from the root directory to start the web application. Open it in the web browser with localhost:PORT/ where PORT is the port specified in the .env file.
+
+ _______________
+|               |
+|      USE      |
+|_______________|
+The root path is a fake "login" page to simulate forming a secure connection with the server before allowing connection to the database. It does not actually do anything, just press the large sign in button to proceed.
+Once "signed-in" you will be taken to the /encryption page, where you can encrypt and insert data into the table in the Create New User section. Once inserted, the password and email can be retrieved by typing in the username of a created user in the Retrieve Data From User section. 
+
+
+
+Copyright © 2023 Claire Childers. Some Rights Reserved.
+The code contained in this project outside of the encryption folder (see the README) is the work of Claire Childers protected by the Creative Commons BY-NC License (https://creativecommons.org/licenses/by-nc/4.0/).
+This project may be remixed, adapted, and built upon for non-commercial purposes. While derivative works must also acknowledge the source and be non-commercial, they don't have to be licensed on the same terms.

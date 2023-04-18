@@ -1,0 +1,6 @@
+This is an implementation of the Salsa20 cipher defined by Prof. Daniel J. Berenstein.
+The full specification can be found here: https://cr.yp.to/snuffle/salsafamily-20071225.pdf
+
+To call: [binaryname] [-e|-d] [keypath] [filepath]
+
+This software written by Colin McGrail for CSI 4480, 2023-04-17

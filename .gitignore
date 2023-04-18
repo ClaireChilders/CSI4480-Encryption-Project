@@ -1,0 +1,7 @@
+*node_modules
+.env
+csi4480-cert.pem
+csi4480-csr.pem
+csi4480-key.pem
+/encryption/key
+/encryption/file*
