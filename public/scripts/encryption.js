@@ -1,4 +1,3 @@
-const { spawn } = require('child_process');
 const { join } = require('path');
 const { writeFileSync, readFileSync } = require('fs');
 const spawnSync = require("child_process").spawnSync;
