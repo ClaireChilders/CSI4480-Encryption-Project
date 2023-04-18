@@ -14,10 +14,10 @@ Function:
  - Server decrypts data and sends them back to client
 Database only contains encrypted data
 
- _______________________
-|                       |
-|      LIMITATIONS      |
-|_______________________|
+ ___________________________________
+|                                   |
+|            LIMITATIONS            |
+|___________________________________|
 This is intended for demonstration purposes only. 
 Securing all aspects of the application is outside the scope of this project. We are focusing on database encryption.
  - A secure connection between the server and database is assumed -> Risk for Interception
@@ -25,10 +25,10 @@ Securing all aspects of the application is outside the scope of this project. We
  - Keys are stored on the server, they should be stored in a separate secure server in a production environment -> Risk for Infiltration Compromising Keys
 
 
- _________________
-|                 |
-|      SETUP      |
-|_________________|
+ _____________________________
+|                             |
+|            SETUP            |
+|_____________________________|
 THIS PROJECT USES ORACLE FOR DATABASE
 
 Create a user for this project, create a table for that user called users. Note the username and password for the .env file.
@@ -45,10 +45,10 @@ Create a user for this project, create a table for that user called users. Note 
 
 This project requires node.js. Run node app.js from the root directory to start the web application. Open it in the web browser with localhost:PORT/ where PORT is the port specified in the .env file.
 
- _______________
-|               |
-|      USE      |
-|_______________|
+ ___________________________
+|                           |
+|            USE            |
+|___________________________|
 The root path is a fake "login" page to simulate forming a secure connection with the server before allowing connection to the database. It does not actually do anything, just press the large sign in button to proceed.
 Once "signed-in" you will be taken to the /encryption page, where you can encrypt and insert data into the table in the Create New User section. Once inserted, the password and email can be retrieved by typing in the username of a created user in the Retrieve Data From User section. 
 
